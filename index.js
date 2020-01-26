@@ -17,8 +17,6 @@ var options = {
     width: '7.1in',
     border: '0'
 };
-
-
 // module for promisifying functions
 const { promisify } = require("util")
 // promisify the readFile function, so you can use .then()
@@ -79,65 +77,78 @@ const questions = [
         type: "confirm",
     }
 ];
-
-// function to call the GitHub api, and set various data into the html
-async function gitAndSetInfo(profileName, color) {
-    color = `Light${color}`
-    // users color choice gets set for the background of the jumbotron cards
-    $(".jumbotron").attr("style",`background:${color}`)
-    // url for git hub profile data
-    const queryUrl = `https://api.github.com/users/${profileName}`;
-    const starsUrl = `https://api.github.com/users/${profileName}/starred`
-    // call the api and get the repo data back
-    var response
-    try {
-        response = await axios.get(queryUrl);
-        stars = await axios.get(starsUrl);
-    } catch (err) {
-        console.log(err)
-    }
-    // create object to contain only the pieces we want to use from the response
-    var smallObject = (({ avatar_url: picture, name, html_url: gitURL, blog, bio, public_repos, followers, following, location }) => ({ picture, name, gitURL, blog, bio, public_repos, followers, following, location }))(response.data);
-    smallObject.stars = stars.data.length
-    // loop through smallObject
-    $.each(smallObject, (key, value) => {
-        // get the elements that need to be updated
-        var element = $(`#${key}`);
-        // set text, href, or src depending on the type of element
-        switch (element.prop('tagName')) {
-            case "A": {
-                element.attr("href", value);
+function openFile(fileName) {
+    open(fileName, { wait: false })
+}
+function gitInfoPromisary(profileName, color) {
+    // create filname based on user name
+    const fileName = `./createdPDFs/${profileName}.pdf`
+    // function to call the GitHub api, and set various data into the html
+    return new Promise(function (resolve, reject) {
+        try {
+            async function gitAndSetInfo() {
+                color = `Light${color}`
+                // users color choice gets set for the background of the jumbotron cards
+                $(".jumbotron").attr("style", `background:${color}`)
+                // url for git hub profile data
+                const queryUrl = `https://api.github.com/users/${profileName}`;
+                const starsUrl = `https://api.github.com/users/${profileName}/starred`
+                // call the api and get the repo data back
+                var response
+                try {
+                    response = await axios.get(queryUrl);
+                    stars = await axios.get(starsUrl);
+                } catch (err) {
+                    console.log(err)
+                }
+                // create object to contain only the pieces we want to use from the response
+                var smallObject = (({ avatar_url: picture, name, html_url: gitURL, blog, bio, public_repos, followers, following, location }) => ({ picture, name, gitURL, blog, bio, public_repos, followers, following, location }))(response.data);
+                smallObject.stars = stars.data.length
+                // loop through smallObject
+                $.each(smallObject, (key, value) => {
+                    // get the elements that need to be updated
+                    var element = $(`#${key}`);
+                    // set text, href, or src depending on the type of element
+                    switch (element.prop('tagName')) {
+                        case "A": {
+                            element.attr("href", value);
+                        }
+                            break;
+                        case "P":
+                        case "H1": {
+                            element.text(value);
+                        }
+                            break;
+                        case "IMG": {
+                            element.attr("src", value);
+                        }
+                    }
+                    if (key === "location") {
+                        element.children("p").text(value);
+                        element.attr("href", `https://www.google.com/maps/place/${value}`)
+                    }
+                });
+                // get the entire HTML string of the modified DOM
+                var htmlString = dom.window.document.documentElement.outerHTML
+                // write it out to a file
+                fs.writeFile("./index.html", htmlString, function (err) {
+                    if (err) {
+                        console.log(err);
+                    } else { console.log("Write HTML Success") }
+                });
+                pdf.create(htmlString, options).toFile(fileName, function (err, res) {
+                    if (err) return console.log(err);
+                    console.log("Write PDF Success")
+                    openFile(fileName);
+                });
             }
-                break;
-            case "P":
-            case "H1": {
-                element.text(value);
-            }
-                break;
-            case "IMG": {
-                element.attr("src", value);
-            }
+            gitAndSetInfo()
+        } catch {
+            return reject(error)
         }
-        if (key === "location") {
-            element.children("p").text(value);
-            element.attr("href", `https://www.google.com/maps/place/${value}`)
-        }
+        return resolve(fileName)
     });
-    // get the entire HTML string of the modified DOM
-    var htmlString = dom.window.document.documentElement.outerHTML
-    // write it out to a file
-    fs.writeFile("./index.html", htmlString, function (err) {
-        if (err) {
-            console.log(err);
-        } else { console.log("Success") }
-    });
-    pdf.create(htmlString, options).toFile('./businesscard.pdf', function (err, res) {
-        if (err) return console.log(err);
-        console.log(res); // { filename: '/app/businesscard.pdf' }
-    });
-    return "./businesscard.pdf"
 };
-
 // function that does it all, set as async to allow use of await
 async function init() {
     try {
@@ -154,11 +165,6 @@ async function init() {
     // prompt user in the console based on previously defined questions object
     const { profileName, color, openOnRun } = await inquirer.prompt(questions)
     // once the prompts are complete...
-    const fileName = await gitAndSetInfo(profileName, color)
-    console.log("last")
-    // Opens the file in the default and waits for the opened app to quit.
-    if (openOnRun) {
-        await open(fileName, { wait: false });
-    }
+    await gitInfoPromisary(profileName, color)
 };
 init()

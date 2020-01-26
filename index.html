@@ -2,69 +2,104 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+  <!-- Font Awesmoe javascript -->
   <script src="https://kit.fontawesome.com/ceb7ababc1.js" crossorigin="anonymous"></script>
-
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
+  <!-- Google fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Martel+Sans|Permanent+Marker&amp;display=swap" rel="stylesheet">
   <title>Git Hub Profile</title>
-</head>
+<style>
+  /* local css file doesn't seem to be accounted for when saving to PDF...
+  so CSS in the HTML it is... */
+  body {
+    background-color: lightslategray;
+    font-family: 'Martel Sans', sans-serif;
+  }
+
+  a,
+  i {
+    color: rgb(49, 100, 151);
+    font-style: italic;
+  }
+
+  h1 {
+    font-size: 8vw !important;
+    font-family: 'Permanent Marker', cursive;
+  }
+
+  p {
+    font-size: 4vw !important;
+  }
+
+  #jumbo2 {
+    font-family: 'Permanent Marker', cursive;
+  }
+
+  card {
+    font-size: 4vw;
+  }
+</style></head>
+
 
 <body>
+  <!-- container for all content -->
   <div class="container text-center">
     <br>
+    <!-- row required to use columns -->
     <div class="row">
+      <!-- 1 of 2 jumbotron sections -->
       <div class="col-12">
-        <div class="jumbotron secondary w-50" style="background:LightSeaGreen">
-          <img id="picture" src="https://avatars2.githubusercontent.com/u/56746229?v=4" alt="missing picture" height="192" width="192">
-          <h1 id="name" class="display-4" style="font-size: 8vw !important;">Jeremy Marotta</h1>
-          <a id="gitURL" class="lead" href="https://github.com/firefreet">
-            <i class="fab fa-github d-inline" style="color:crimson"></i>
+        <div class="jumbotron pb-1 secondary w-50" style="background:LightSteelBlue">
+          <!-- picture, name, git profile, and user's 'blog' all from Git -->
+          <img id="picture" src="https://avatars1.githubusercontent.com/u/56569868?v=4" alt="missing picture" height="192" width="192">
+          <h1 id="name" class="display-4">Patrick Dunn</h1>
+          <p id="bio" class="lead">I graduated from Wheaton College (IL) with a Spanish degree. I enjoy discovering elegant and replicable solutions to practical problems.</p>
+          <i class="fab fa-github d-inline"></i>
+          <a id="gitURL" class="lead d-inline" href="https://github.com/knightmac19">
             <p class="d-inline">GitHub</p>
           </a>
-          <a id="blog" class="lead d-block" href="https://firefreet.github.io/Bootstrap-Portfolio/">
-            <i class="far fa-user d-inline" style="color:crimson"></i>
-            <p class="d-inline">
-              Blog / Profile
-            </p>
+          <i class="ml-5 far fa-user d-inline"></i>
+          <a id="blog" class="lead d-inline" href="https://knightmac19.github.io/Portfolio/">
+            <p class="d-inline">Blog / Profile</p>
           </a>
-          <p id="bio" class="lead" style="font-size: 4vw !important">Happy with my head buried in code. Here a code, there a code, everywhere a code, code...</p>
         </div>
       </div>
+      <!-- 2 of 2 jumbotron sections -->
       <div class="col-12">
-        <div class="jumbotron p-1 secondary w-50" style="background:LightSeaGreen">
+        <div id="jumbo2" class="jumbotron p-1 secondary w-50" style="background:LightSteelBlue">
           <div class="row mr-3">
-            <div class="card w-100 m-1 mx-3" style="font-size: 4vw;">
+            <!-- bootstrap list group boxes. content also from Git hub stats -->
+            <div class="card w-100 m-1 mx-3">
               <ul class="list-group m-0 list-group-flush d-flex">
                 <li class="list-group-item p-0">
                   <div>
                     <p>Number of public repositories:</p>
-                    <p id="public_repos" class="lead">14</p>
+                    <p id="public_repos" class="lead">13</p>
                   </div>
                 </li>
                 <li class="list-group-item p-0">
                   <div>
                     <p>Number of followers</p>
-                    <p id="followers" class="lead">14</p>
+                    <p id="followers" class="lead">12</p>
                   </div>
                 </li>
                 <li class="list-group-item p-0">
                   <div>
                     <p>Number following</p>
-                    <p id="following" class="lead">23</p>
+                    <p id="following" class="lead">22</p>
                   </div>
                 </li>
                 <li class="list-group-item p-0">
                   <div>
                     <p>Number of stars</p>
-                    <p id="stars" class="lead">1</p>
+                    <p id="stars" class="lead">0</p>
                   </div>
                 </li>
                 <li class="list-group-item p-0">
-                  <a href="https://www.google.com/maps/place/Hartford, CT" id="location" class="lead">
-                    <i class="far fa-compass d-inline"></i>
-                    <p class="d-inline">Hartford, CT</p>
+                  <i class="far fa-compass d-inline"></i>
+                  <a href="https://www.google.com/maps/place/Connecticut" id="location" class="lead d-inline">
+                    <p class="d-inline">Connecticut</p>
                   </a>
                 </li>
               </ul>
