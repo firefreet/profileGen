@@ -5,9 +5,11 @@
   "main": "index.js",
   "dependencies": {
     "axios": "^0.19.2",
+    "html-pdf": "^2.2.0",
     "inquirer": "^7.0.4",
     "jquery": "^3.4.1",
     "jsdom": "^16.0.1",
+    "open": "^7.0.0",
     "util": "^0.12.1"
   },
   "devDependencies": {},
