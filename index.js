@@ -57,7 +57,6 @@ const colorOptions = [
         value: "SteelBlue"
     }
 ]
-// plan to add to the prompt to ask if user wants the file to open on completion
 const questions = [
     {
         name: "profileName",
@@ -77,6 +76,7 @@ const questions = [
         type: "confirm",
     }
 ];
+// to be used as cb function after PDF is written
 function openFile(fileName) {
     open(fileName, { wait: false })
 }
