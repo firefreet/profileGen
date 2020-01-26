@@ -1,0 +1,19 @@
+{
+  "name": "40-stu_mini-project",
+  "version": "1.0.0",
+  "description": "get html from template and manipulate as if in a broswer and having access to the DOM, then save back out to a new file",
+  "main": "index.js",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "inquirer": "^7.0.4",
+    "jquery": "^3.4.1",
+    "jsdom": "^16.0.1",
+    "util": "^0.12.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jeremy Marotta",
+  "license": "ISC"
+}
