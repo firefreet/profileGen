@@ -10,6 +10,8 @@ const jsdom = require("jsdom");
 const open = require('open');
 // module to convert html to pdf
 var pdf = require('html-pdf');
+// module with object variables
+var inquirer_objects = require('./inquirer_objects.js')
 // pdf formatting options
 var options = {
     format: 'Letter',
@@ -27,60 +29,11 @@ const { JSDOM } = jsdom;
 var fileString = null;
 var dom = null;
 var $ = null;
-const colorOptions = [
-    {
-        name: "Yellow",
-        value: "GoldenRodYellow"
-    },
-    {
-        name: "Gray",
-        value: "Gray"
-    },
-    {
-        name: "Green",
-        value: "Pink"
-    },
-    {
-        name: "Salmon",
-        value: "Salmon"
-    },
-    {
-        name: "SeaGreen",
-        value: "SeaGreen"
-    },
-    {
-        name: "Blue",
-        value: "SkyBlue"
-    },
-    {
-        name: "SteelBlue",
-        value: "SteelBlue"
-    }
-]
-const questions = [
-    {
-        name: "profileName",
-        message: "What is your GitHub profile name?",
-        default: "firefreet"
-    },
-    {
-        name: "color",
-        message: "What is your favorite color?",
-        default: "SteelBlue",
-        choices: colorOptions,
-        type: "list"
-    },
-    {
-        name: "openOnRun",
-        message: "Do you want to open the file on completion?",
-        type: "confirm",
-    }
-];
 // to be used as cb function after PDF is written
 function openFile(fileName) {
     open(fileName, { wait: false })
 }
-function gitInfoPromisary(profileName, color) {
+function gitInfoPromisary(profileName, color, openOnRun) {
     // create filname based on user name
     const fileName = `./createdPDFs/${profileName}.pdf`
     // function to call the GitHub api, and set various data into the html
@@ -130,16 +83,18 @@ function gitInfoPromisary(profileName, color) {
                 });
                 // get the entire HTML string of the modified DOM
                 var htmlString = dom.window.document.documentElement.outerHTML
-                // write it out to a file
+                // write it out to an HTML file ()
                 fs.writeFile("./index.html", htmlString, function (err) {
                     if (err) {
                         console.log(err);
                     } else { console.log("Write HTML Success") }
                 });
+                // write the actual pdf
                 pdf.create(htmlString, options).toFile(fileName, function (err, res) {
                     if (err) return console.log(err);
                     console.log("Write PDF Success")
-                    openFile(fileName);
+                    // if user chose to open the end file, open the file
+                    if(openOnRun) {openFile(fileName);}
                 });
             }
             gitAndSetInfo()
@@ -163,8 +118,8 @@ async function init() {
         return err;
     }
     // prompt user in the console based on previously defined questions object
-    const { profileName, color, openOnRun } = await inquirer.prompt(questions)
+    const { profileName, color, openOnRun } = await inquirer.prompt(inquirer_objects.questions)
     // once the prompts are complete...
-    await gitInfoPromisary(profileName, color)
+    await gitInfoPromisary(profileName, color, openOnRun)
 };
 init()
