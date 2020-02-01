@@ -12,6 +12,8 @@ const open = require('open');
 var pdf = require('html-pdf');
 // module with object variables
 var inquirer_objects = require('./inquirer_objects.js')
+// another html to pdf module to try
+var puppeteer = require('pdf-puppeteer')
 // pdf formatting options
 var options = {
     format: 'Letter',
@@ -111,5 +113,8 @@ async function init() {
         // if user chose to open the end file, open the file
         if (openOnRun) { openFile(fileName); }
     });
+    // attempt to use puppeteer instead...
+    // await puppeteer(htmlString, () => {}, {path: fileName, landscape: true});
+    // if(openOnRun) {openFile(fileName)}
 };
 init()
