@@ -99,14 +99,14 @@ async function init() {
     // get the entire HTML string of the modified DOM
     htmlString = dom.window.document.documentElement.outerHTML
     // write it out to an HTML file ()
-    writeFilePromisary("./index.html", htmlString)
-        .then(
-            function (err) {
-                if (err) {
-                    console.log(err);
-                } else { console.log("Write HTML Success"); }
-            })
-    // write the actual pdf
+    // writeFilePromisary("./index.html", htmlString)
+    //     .then(
+    //         function (err) {
+    //             if (err) {
+    //                 console.log(err);
+    //             } else { console.log("Write HTML Success"); }
+    //         })
+    // // write the actual pdf
     pdf.create(htmlString, options).toFile(fileName, function (err, res) {
         if (err) return console.log(err);
         console.log("Write PDF Success");
