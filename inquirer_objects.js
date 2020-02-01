@@ -9,7 +9,7 @@ const colorOptions = [
     },
     {
         name: "Green",
-        value: "Pink"
+        value: "Green"
     },
     {
         name: "Salmon",
