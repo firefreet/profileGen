@@ -8,7 +8,7 @@
     "html-pdf": "^2.2.0",
     "inquirer": "^7.0.4",
     "jquery": "^3.4.1",
-    "jsdom": "^16.0.1",
+    "jsdom": "^16.5.0",
     "open": "^7.0.0",
     "pdf-puppeteer": "^1.1.9",
     "util": "^0.12.1"
